@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feeling Matters</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Welcome</h1>
+    <p>How is your day going?</p>
+    <ul>
+        <li>Please answer the question.</li>
+        <li>We hope you will do your best.</li>
+        <li>Good luck!! 😉</li>
+    </ul>
+    
+    <form id="userForm">
+        <h3>How is your mental state right now?</h3>
+        <input type="radio" name="mentalState" id="good" value="good" required>
+        <label for="good">Good</label>
+        <br>
+        <input type="radio" name="mentalState" id="notGood" value="notGood">
+        <label for="notGood">Not good</label>
+        <br><br>
+
+        <h3>What is your favorite color?</h3>
+        <input type="color" name="favoriteColor">
+        <br><br>
+
+        <h3>Write something about yourself:</h3>
+        <textarea name="aboutYou" rows="4" cols="30" required></textarea>
+        <br><br>
+
+        <h3>Choose your preferred mode of communication:</h3>
+        <select name="communication" required>
+            <option value="" disabled selected>Select an option</option>
+            <option value="email">Email</option>
+            <option value="phone">Phone</option>
+            <option value="chat">Chat</option>
+        </select>
+        <br><br>
+
+        <h3>If you had a chance to visit anywhere in the world, where would you go?</h3>
+        <input type="text" name="dreamDestination" required>
+        <br><br>
+
+        <h3>What is one thing that always makes you smile?</h3>
+        <input type="text" name="happyThing" required>
+        <br><br>
+
+        <h3>Would you like to share something that has made your day better today?</h3>
+        <textarea name="dayImprovement" rows="3" cols="30"></textarea>
+        <br><br>
+
+        <button type="submit">Submit</button>
+    </form>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const form = document.getElementById("userForm");
+
+            // Array of motivational quotes
+            const quotes = [
+                "Believe in yourself! You are stronger than you think. 💪",
+                "Every day may not be good, but there's something good in every day. 🌞",
+                "You are capable of amazing things! Keep going. 🚀",
+                "Happiness is a choice. Choose to shine today! ✨",
+                "Your potential is limitless. Keep pushing forward! 🌟",
+                "You are enough just as you are. 💖"
+            ];
+
+            form.addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent form submission
+                
+                let points = 0;
+                let answers = {};
+
+                // Collect answers
+                answers.mentalState = document.querySelector('input[name="mentalState"]:checked')?.value || "Not answered";
+                answers.favoriteColor = document.querySelector('input[name="favoriteColor"]')?.value || "Not selected";
+                answers.aboutYou = document.querySelector('textarea[name="aboutYou"]').value.trim() || "Not written";
+                answers.communication = document.querySelector('select[name="communication"]').value || "Not chosen";
+                answers.dreamDestination = document.querySelector('input[name="dreamDestination"]').value.trim() || "Not shared";
+                answers.happyThing = document.querySelector('input[name="happyThing"]').value.trim() || "Not shared";
+                answers.dayImprovement = document.querySelector('textarea[name="dayImprovement"]').value.trim() || "Not shared";
+
+                // Assign points based on responses
+                if (answers.mentalState === "good") points += 10;
+                if (answers.communication === "chat") points += 15;
+                if (answers.dreamDestination) points += 20;
+                if (answers.happyThing) points += 10;
+
+                // Select a random motivational quote
+                const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+
+                // Display responses and reward message
+                let rewardMessage = `Thank you for answering! ❤️\n\nYour responses:\n`;
+                for (let question in answers) {
+                    rewardMessage += `${question.replace(/([A-Z])/g, ' $1')}: ${answers[question]}\n`;
+                }
+                rewardMessage += `\nYou've earned **${points} points**! 🎉\n\nHere’s a little inspiration for you:\n"${randomQuote}"`;
+
+                alert(rewardMessage);
+            });
+        });
+    </script>
+</body>
+</html>
